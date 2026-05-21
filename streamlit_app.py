@@ -1,6 +1,5 @@
 import random
 import streamlit as st
-from streamlit_autorefresh import st_autorefresh
 
 st.set_page_config(page_title="통합 오라클 리딩", page_icon="🔮", layout="wide")
 
@@ -190,14 +189,14 @@ def build_tarot_deck():
 def init():
     defaults = {
         "dice": None,
-        "dice_rolling": False,
+        "dice_preview": (1, 1),
         "tarot_deck": build_tarot_deck(),
         "tarot": None,
         "iching": None,
         "zodiac": None,
-        "zodiac_rolling": False,
+        "zodiac_preview": "양자리",
         "planet": None,
-        "planet_rolling": False,
+        "planet_preview": "태양",
     }
 
     for key, value in defaults.items():
@@ -212,7 +211,6 @@ def dice_face(n):
 def draw_iching():
     lines = [random.choice([0, 1]) for _ in range(6)]
     key = "".join(map(str, lines))
-
     name, meaning = HEXAGRAMS[key]
 
     yin_count = lines.count(0)
@@ -337,14 +335,14 @@ st.write("직접 굴리고, 멈추고, 선택해서 다섯 가지 상징을 모�
 
 if st.button("전체 초기화"):
     st.session_state.dice = None
-    st.session_state.dice_rolling = False
+    st.session_state.dice_preview = (1, 1)
     st.session_state.tarot = None
     st.session_state.tarot_deck = build_tarot_deck()
     st.session_state.iching = None
     st.session_state.zodiac = None
-    st.session_state.zodiac_rolling = False
+    st.session_state.zodiac_preview = "양자리"
     st.session_state.planet = None
-    st.session_state.planet_rolling = False
+    st.session_state.planet_preview = "태양"
     st.rerun()
 
 st.divider()
@@ -353,30 +351,30 @@ col1, col2 = st.columns(2)
 
 with col1:
     st.header("🎲 주사위")
+    a, b = st.session_state.dice_preview
+    st.markdown(f"## {dice_face(a)} {dice_face(b)}")
 
-    if st.session_state.dice_rolling:
-        st_autorefresh(interval=120, key="dice_refresh")
+    c1, c2 = st.columns(2)
 
-        temp_a = random.randint(1, 6)
-        temp_b = random.randint(1, 6)
-
-        st.markdown(f"## {dice_face(temp_a)} {dice_face(temp_b)}")
-
-        if st.button("멈추기", key="stop_dice"):
-            st.session_state.dice = (temp_a, temp_b)
-            st.session_state.dice_rolling = False
+    with c1:
+        if st.button("굴리기", key="roll_dice"):
+            st.session_state.dice_preview = (
+                random.randint(1, 6),
+                random.randint(1, 6),
+            )
             st.rerun()
-    else:
-        if st.session_state.dice:
-            a, b = st.session_state.dice
-            st.markdown(f"## {dice_face(a)} {dice_face(b)}")
-            st.write(f"**결과:** {a} + {b} = {a + b}")
-            st.write(f"{a}: {DICE[a]}")
-            st.write(f"{b}: {DICE[b]}")
 
-        if st.button("주사위 굴리기", key="start_dice"):
-            st.session_state.dice_rolling = True
+    with c2:
+        if st.button("이 숫자로 멈추기", key="stop_dice"):
+            st.session_state.dice = st.session_state.dice_preview
             st.rerun()
+
+    if st.session_state.dice:
+        x, y = st.session_state.dice
+        st.success("주사위를 멈췄습니다.")
+        st.write(f"**결과:** {x} + {y} = {x + y}")
+        st.write(f"{x}: {DICE[x]}")
+        st.write(f"{y}: {DICE[y]}")
 
 with col2:
     st.header("🃏 타로카드")
@@ -393,7 +391,6 @@ with col2:
         st.write(t["meaning"])
     else:
         st.write("아래 156장의 카드 뒷면 중 하나를 직접 선택하세요.")
-
         cols = st.columns(12)
 
         for i, card in enumerate(st.session_state.tarot_deck):
@@ -426,52 +423,48 @@ with col3:
 with col4:
     st.header("♈ 별자리")
 
-    names = list(ZODIACS.keys())
+    st.markdown(f"## {st.session_state.zodiac_preview}")
 
-    if st.session_state.zodiac_rolling:
-        st_autorefresh(interval=120, key="zodiac_refresh")
+    c1, c2 = st.columns(2)
 
-        temp_zodiac = random.choice(names)
-        st.markdown(f"## {temp_zodiac}")
-
-        if st.button("멈추기", key="stop_zodiac"):
-            st.session_state.zodiac = temp_zodiac
-            st.session_state.zodiac_rolling = False
+    with c1:
+        if st.button("굴리기", key="roll_zodiac"):
+            st.session_state.zodiac_preview = random.choice(list(ZODIACS.keys()))
             st.rerun()
-    else:
-        if st.session_state.zodiac:
-            z = st.session_state.zodiac
-            st.write(f"**{z}**")
-            st.write(ZODIACS[z])
 
-        if st.button("별자리 굴리기", key="start_zodiac"):
-            st.session_state.zodiac_rolling = True
+    with c2:
+        if st.button("이 별자리로 멈추기", key="stop_zodiac"):
+            st.session_state.zodiac = st.session_state.zodiac_preview
             st.rerun()
+
+    if st.session_state.zodiac:
+        z = st.session_state.zodiac
+        st.success("별자리를 멈췄습니다.")
+        st.write(f"**{z}**")
+        st.write(ZODIACS[z])
 
 with col5:
     st.header("🪐 행성")
 
-    names = list(PLANETS.keys())
+    st.markdown(f"## {st.session_state.planet_preview}")
 
-    if st.session_state.planet_rolling:
-        st_autorefresh(interval=120, key="planet_refresh")
+    c1, c2 = st.columns(2)
 
-        temp_planet = random.choice(names)
-        st.markdown(f"## {temp_planet}")
-
-        if st.button("멈추기", key="stop_planet"):
-            st.session_state.planet = temp_planet
-            st.session_state.planet_rolling = False
+    with c1:
+        if st.button("굴리기", key="roll_planet"):
+            st.session_state.planet_preview = random.choice(list(PLANETS.keys()))
             st.rerun()
-    else:
-        if st.session_state.planet:
-            p = st.session_state.planet
-            st.write(f"**{p}**")
-            st.write(PLANETS[p])
 
-        if st.button("행성 굴리기", key="start_planet"):
-            st.session_state.planet_rolling = True
+    with c2:
+        if st.button("이 행성으로 멈추기", key="stop_planet"):
+            st.session_state.planet = st.session_state.planet_preview
             st.rerun()
+
+    if st.session_state.planet:
+        p = st.session_state.planet
+        st.success("행성을 멈췄습니다.")
+        st.write(f"**{p}**")
+        st.write(PLANETS[p])
 
 st.divider()
 
