@@ -91,12 +91,70 @@ RANKS = [
 ]
 
 HEXAGRAMS = {
-    "111111": ("건", "하늘. 창조, 추진력, 강한 양의 에너지"),
-    "000000": ("곤", "땅. 수용, 돌봄, 기반, 음의 에너지"),
-    "100010": ("준", "시작의 어려움, 혼돈 속의 싹"),
-    "010001": ("몽", "미숙함, 배움, 안내가 필요한 상태"),
-    "111010": ("수", "기다림, 때를 살핌, 준비"),
-    "010111": ("송", "논쟁, 긴장, 원칙의 충돌"),
+    "111111": ("건", "창조성, 추진력, 강한 시작, 주도권"),
+    "000000": ("곤", "수용성, 기반, 돌봄, 기다림"),
+    "100010": ("준", "시작의 혼란, 어려운 출발, 씨앗"),
+    "010001": ("몽", "미숙함, 배움, 안내, 성장 전 단계"),
+    "111010": ("수", "기다림, 준비, 때를 살핌"),
+    "010111": ("송", "갈등, 논쟁, 원칙의 충돌"),
+    "010000": ("사", "조직, 전략, 집단적 움직임"),
+    "000010": ("비", "협력, 결합, 서로 기대는 힘"),
+    "111011": ("소축", "작은 축적, 섬세한 조율"),
+    "110111": ("리", "조심스러운 전진, 예의, 균형"),
+    "111000": ("태", "평화, 소통, 조화로운 흐름"),
+    "000111": ("비괘", "막힘, 단절, 흐름의 정체"),
+    "101111": ("동인", "사람들과의 연대, 공동의 뜻"),
+    "111101": ("대유", "큰 소유, 풍요, 자원의 확장"),
+    "001000": ("겸", "겸손, 낮춤, 안정된 성장"),
+    "000100": ("예", "기쁨, 준비된 움직임, 활력"),
+    "100110": ("수", "따름, 흐름을 받아들임"),
+    "011001": ("고", "오래된 문제의 수리, 정비"),
+    "110000": ("임", "다가옴, 기회, 성장의 접근"),
+    "000011": ("관", "관찰, 통찰, 거리를 둔 이해"),
+    "100101": ("서합", "막힌 것을 깨물어 통과함, 결단"),
+    "101001": ("비", "꾸밈, 형식, 아름답게 드러남"),
+    "000001": ("박", "벗겨짐, 약화, 구조의 붕괴"),
+    "100000": ("복", "돌아옴, 회복, 새로운 주기"),
+    "100111": ("무망", "순수함, 억지 없는 흐름"),
+    "111001": ("대축", "큰 축적, 힘의 저장"),
+    "100001": ("이", "기름, 돌봄, 말과 음식의 상징"),
+    "011110": ("대과", "큰 과잉, 무게, 압박"),
+    "010010": ("감", "깊은 물, 위험, 반복되는 시험"),
+    "101101": ("리", "불, 명료함, 의식의 밝음"),
+    "001110": ("함", "감응, 끌림, 마음의 움직임"),
+    "011100": ("항", "지속, 꾸준함, 관계의 유지"),
+    "001111": ("돈", "물러남, 후퇴, 거리두기"),
+    "111100": ("대장", "큰 힘, 강한 추진력"),
+    "000101": ("진", "나아감, 상승, 인정받음"),
+    "101000": ("명이", "상처 입은 빛, 숨겨진 지혜"),
+    "101011": ("가인", "가족, 내부 질서, 가까운 관계"),
+    "110101": ("규", "어긋남, 차이, 다른 시선"),
+    "001010": ("건", "험난함, 장애, 넘기 어려운 고비"),
+    "010100": ("해", "풀림, 해방, 긴장의 완화"),
+    "110001": ("손", "덜어냄, 비움, 절제"),
+    "100011": ("익", "더함, 성장, 보탬"),
+    "111110": ("쾌", "결단, 터뜨림, 분명한 선택"),
+    "011111": ("구", "마주침, 유혹, 갑작스러운 만남"),
+    "000110": ("췌", "모임, 집중, 집단의 힘"),
+    "011000": ("승", "상승, 점진적 성장"),
+    "010110": ("곤", "갇힘, 압박, 제한"),
+    "011010": ("정", "우물, 근원, 공동의 자원"),
+    "101110": ("혁", "혁명, 변화, 낡은 틀의 교체"),
+    "011101": ("정", "솥, 변형, 새롭게 익힘"),
+    "100100": ("진", "우레, 충격, 각성"),
+    "001001": ("간", "멈춤, 산, 고요한 집중"),
+    "001011": ("점", "점진적 진행, 천천히 자리잡음"),
+    "110100": ("귀매", "불균형한 결합, 성급한 연결"),
+    "101100": ("풍", "풍성함, 절정, 밝은 순간"),
+    "001101": ("여", "나그네, 임시성, 이동"),
+    "011011": ("손", "바람, 스며듦, 부드러운 영향력"),
+    "110110": ("태", "기쁨, 말, 즐거운 교류"),
+    "010011": ("환", "흩어짐, 분산, 풀어냄"),
+    "110010": ("절", "절제, 한계 설정, 규칙"),
+    "110011": ("중부", "진실한 마음, 내적 신뢰"),
+    "001100": ("소과", "작은 지나침, 세밀함, 조심"),
+    "101010": ("기제", "이미 이룸, 완성 후 관리"),
+    "010101": ("미제", "아직 이루지 못함, 전환 직전"),
 }
 
 
@@ -138,9 +196,10 @@ def init():
         "zodiac": None,
         "planet": None,
     }
-    for k, v in defaults.items():
-        if k not in st.session_state:
-            st.session_state[k] = v
+
+    for key, value in defaults.items():
+        if key not in st.session_state:
+            st.session_state[key] = value
 
 
 def dice_face(n):
@@ -150,11 +209,26 @@ def dice_face(n):
 def draw_iching():
     lines = [random.choice([0, 1]) for _ in range(6)]
     key = "".join(map(str, lines))
-    name, meaning = HEXAGRAMS.get(
-        key,
-        ("미정괘", "서로 다른 힘이 섞이며 새로운 균형을 찾는 중입니다.")
-    )
-    return {"lines": lines, "key": key, "name": name, "meaning": meaning}
+
+    name, meaning = HEXAGRAMS[key]
+
+    yin_count = lines.count(0)
+    yang_count = lines.count(1)
+
+    if yang_count > yin_count:
+        balance = "양의 기운이 강해 바깥으로 움직이고 밀어붙이는 흐름이 큽니다."
+    elif yin_count > yang_count:
+        balance = "음의 기운이 강해 받아들이고 숙성시키는 흐름이 큽니다."
+    else:
+        balance = "음양이 균형을 이루어 선택과 조율이 중요한 흐름입니다."
+
+    return {
+        "lines": lines,
+        "key": key,
+        "name": name,
+        "meaning": meaning,
+        "balance": balance,
+    }
 
 
 def line_view(line):
@@ -171,10 +245,27 @@ def ready():
     ])
 
 
-def keywords():
-    pool = ["시작", "균형", "전환", "회복", "확장", "통찰", "용기", "수용", "구조", "해방"]
-    random.shuffle(pool)
-    return pool[:3]
+def make_keywords_from_text(text):
+    candidates = [
+        "정리", "전환", "균형", "회복", "확장", "통찰", "절제", "실행",
+        "기다림", "해방", "관계", "구조", "내면", "성장", "선택",
+        "명료함", "수용", "변화", "집중", "재정렬"
+    ]
+
+    scored = []
+    for word in candidates:
+        scored.append((word, text.count(word)))
+
+    scored.sort(key=lambda x: x[1], reverse=True)
+
+    picked = [word for word, score in scored if score > 0][:3]
+
+    while len(picked) < 3:
+        word = random.choice(candidates)
+        if word not in picked:
+            picked.append(word)
+
+    return picked[:3]
 
 
 def integrated_reading():
@@ -183,20 +274,73 @@ def integrated_reading():
     iching = st.session_state.iching
     zodiac = st.session_state.zodiac
     planet = st.session_state.planet
-    keys = keywords()
 
-    return f"""
-이번 조합은 **{keys[0]}**, **{keys[1]}**, **{keys[2]}**의 흐름으로 읽힙니다.
+    dice_sum = a + b
 
-주사위의 숫자 **{a}와 {b}**는 현재 에너지의 기본 리듬을 보여줍니다.  
-타로의 **{tarot["name"]} {tarot["orientation"]}**은 심리적 상징과 내면의 방향을 드러냅니다.  
-주역의 **{iching["name"]}**은 상황의 구조와 변화 가능성을 보여줍니다.  
-별자리 **{zodiac}**는 이 에너지가 어떤 태도로 표현되는지를 말하고,  
-행성 **{planet}**은 가장 강하게 작동하는 원리를 나타냅니다.
+    if dice_sum <= 4:
+        rhythm = "아직 크게 펼쳐지기 전의 조심스러운 시작"
+        rhythm_detail = "지금은 빠르게 결과를 만들기보다 작은 신호를 놓치지 않고 관찰하는 쪽이 좋습니다."
+    elif dice_sum <= 8:
+        rhythm = "현실적인 조율과 균형을 요구하는 중간 흐름"
+        rhythm_detail = "어느 한쪽으로 치우치기보다 이미 놓여 있는 조건들을 정리하고 맞춰 가는 힘이 중요합니다."
+    else:
+        rhythm = "에너지가 바깥으로 강하게 확장되는 흐름"
+        rhythm_detail = "움직임 자체는 강하지만, 방향이 정돈되지 않으면 힘이 분산될 수 있습니다."
 
-통합적으로 보면, 지금은 하나의 정답을 찾기보다는 여러 상징이 가리키는 공통된 패턴을 읽는 시기입니다.  
-겉으로는 우연처럼 보이는 요소들이 모여 현재 흐름의 상징적 지도를 만들고 있습니다.
+    if tarot["orientation"] == "역방향":
+        tarot_layer = (
+            "심리적인 층위에서는 막힘, 지연, 과잉, 혹은 자기 안에서 아직 정리되지 않은 태도가 강조됩니다. "
+            "겉으로 더 많은 행동을 취하기보다, 왜 어떤 흐름이 자연스럽게 열리지 않는지 살피는 것이 우선입니다."
+        )
+    else:
+        tarot_layer = (
+            "심리적인 층위에서는 상징이 비교적 직접적으로 드러납니다. "
+            "지금 느끼는 감각이나 판단을 지나치게 의심하기보다, 그것이 어디로 향하고 있는지 차분히 확인하는 것이 좋습니다."
+        )
+
+    iching_layer = (
+        f"구조적으로는 **{iching['name']}**의 흐름이 깔려 있습니다. "
+        f"이 괘는 `{iching['meaning']}`의 상징을 가집니다. "
+        f"{iching['balance']} "
+        "따라서 현재의 흐름은 완전히 고정된 결론이라기보다, 작은 선택과 태도 변화에 따라 방향이 달라질 수 있는 상태입니다."
+    )
+
+    zodiac_layer = (
+        f"표현 방식에서는 **{zodiac}**의 성질이 드러납니다. "
+        f"`{ZODIACS[zodiac]}`의 기운은 지금의 상징을 지나치게 추상적인 예언으로 보기보다, "
+        "실제 태도와 습관, 반응 방식 속에서 읽어야 한다는 신호로 볼 수 있습니다."
+    )
+
+    planet_layer = (
+        f"가장 강하게 작동하는 원리는 **{planet}**의 에너지입니다. "
+        f"`{PLANETS[planet]}`의 상징은 지금의 흐름이 어디에 힘을 싣고 있는지를 보여줍니다. "
+        "이 에너지는 리딩 전체의 분위기를 결정하는 핵심 축으로 작동합니다."
+    )
+
+    reading = f"""
+이번 리딩의 전체 분위기는 **{rhythm}**입니다.  
+{rhythm_detail}
+
+현재의 상징들은 빠른 결론보다는, 먼저 흐름을 정리하고 방향을 가다듬으라는 쪽에 가깝습니다.  
+겉으로는 단순한 우연처럼 보이지만, 여러 요소가 함께 놓였을 때 반복해서 드러나는 핵심은  
+**무엇을 더할 것인가보다 무엇을 정돈해야 하는가**에 있습니다.
+
+{tarot_layer}
+
+{iching_layer}
+
+{zodiac_layer}
+
+{planet_layer}
+
+종합하면, 지금은 하나의 답을 바로 고르는 시기라기보다 흩어진 신호들을 모아 패턴을 읽는 시기입니다.  
+불필요한 과잉을 줄이고, 반복해서 나타나는 감각을 따라가면 방향이 더 선명해집니다.  
+무리하게 결론을 앞당기기보다는, 현재 드러난 상징들이 어디에서 서로 겹치는지 보는 것이 중요합니다.
 """
+
+    keys = make_keywords_from_text(reading)
+
+    return reading, keys
 
 
 init()
@@ -219,6 +363,7 @@ with col1:
 
     if st.button("주사위 굴리고 멈추기"):
         box = st.empty()
+
         for _ in range(12):
             a, b = random.randint(1, 6), random.randint(1, 6)
             box.markdown(f"# {dice_face(a)} {dice_face(b)}")
@@ -257,8 +402,10 @@ with col2:
 
     with st.expander("156장 랜덤 배열 보기"):
         cols = st.columns(6)
+
         for i, card in enumerate(st.session_state.tarot_deck):
             mark = "↕" if card["orientation"] == "역방향" else "↑"
+
             with cols[i % 6]:
                 st.caption(f"{i + 1}. {mark} {card['name']}")
 
@@ -275,10 +422,13 @@ with col3:
 
     if st.session_state.iching:
         y = st.session_state.iching
+
         for line in reversed(y["lines"]):
             st.markdown(f"### {line_view(line)}")
+
         st.write(f"**{y['name']}**")
         st.write(y["meaning"])
+        st.caption(y["balance"])
 
 with col4:
     st.header("♈ 별자리")
@@ -286,6 +436,7 @@ with col4:
     if st.button("별자리 굴리고 멈추기"):
         names = list(ZODIACS.keys())
         box = st.empty()
+
         for _ in range(14):
             box.markdown(f"## {random.choice(names)}")
             time.sleep(0.04)
@@ -304,6 +455,7 @@ with col5:
     if st.button("행성 굴리고 멈추기"):
         names = list(PLANETS.keys())
         box = st.empty()
+
         for _ in range(14):
             box.markdown(f"## {random.choice(names)}")
             time.sleep(0.04)
@@ -321,12 +473,13 @@ st.divider()
 st.header("✨ 통합 해석")
 
 if ready():
-    ks = keywords()
-    st.subheader("키워드 3개")
-    st.write(", ".join(ks))
+    reading, ks = integrated_reading()
 
-    st.subheader("리딩")
-    st.markdown(integrated_reading())
+    st.subheader("통합 리딩")
+    st.markdown(reading)
+
+    st.subheader("키워드 3개")
+    st.write(" · ".join(ks))
 else:
     st.info("5가지 결과가 모두 모이면 통합 해석이 나타납니다.")
 
