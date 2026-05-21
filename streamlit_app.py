@@ -1,6 +1,6 @@
 import random
-import time
 import streamlit as st
+from streamlit_autorefresh import st_autorefresh
 
 st.set_page_config(page_title="통합 오라클 리딩", page_icon="🔮", layout="wide")
 
@@ -190,11 +190,14 @@ def build_tarot_deck():
 def init():
     defaults = {
         "dice": None,
+        "dice_rolling": False,
         "tarot_deck": build_tarot_deck(),
         "tarot": None,
         "iching": None,
         "zodiac": None,
+        "zodiac_rolling": False,
         "planet": None,
+        "planet_rolling": False,
     }
 
     for key, value in defaults.items():
@@ -252,10 +255,7 @@ def make_keywords_from_text(text):
         "명료함", "수용", "변화", "집중", "재정렬"
     ]
 
-    scored = []
-    for word in candidates:
-        scored.append((word, text.count(word)))
-
+    scored = [(word, text.count(word)) for word in candidates]
     scored.sort(key=lambda x: x[1], reverse=True)
 
     picked = [word for word, score in scored if score > 0][:3]
@@ -298,25 +298,6 @@ def integrated_reading():
             "지금 느끼는 감각이나 판단을 지나치게 의심하기보다, 그것이 어디로 향하고 있는지 차분히 확인하는 것이 좋습니다."
         )
 
-    iching_layer = (
-        f"구조적으로는 **{iching['name']}**의 흐름이 깔려 있습니다. "
-        f"이 괘는 `{iching['meaning']}`의 상징을 가집니다. "
-        f"{iching['balance']} "
-        "따라서 현재의 흐름은 완전히 고정된 결론이라기보다, 작은 선택과 태도 변화에 따라 방향이 달라질 수 있는 상태입니다."
-    )
-
-    zodiac_layer = (
-        f"표현 방식에서는 **{zodiac}**의 성질이 드러납니다. "
-        f"`{ZODIACS[zodiac]}`의 기운은 지금의 상징을 지나치게 추상적인 예언으로 보기보다, "
-        "실제 태도와 습관, 반응 방식 속에서 읽어야 한다는 신호로 볼 수 있습니다."
-    )
-
-    planet_layer = (
-        f"가장 강하게 작동하는 원리는 **{planet}**의 에너지입니다. "
-        f"`{PLANETS[planet]}`의 상징은 지금의 흐름이 어디에 힘을 싣고 있는지를 보여줍니다. "
-        "이 에너지는 리딩 전체의 분위기를 결정하는 핵심 축으로 작동합니다."
-    )
-
     reading = f"""
 이번 리딩의 전체 분위기는 **{rhythm}**입니다.  
 {rhythm_detail}
@@ -327,11 +308,18 @@ def integrated_reading():
 
 {tarot_layer}
 
-{iching_layer}
+구조적으로는 **{iching['name']}**의 흐름이 깔려 있습니다.  
+이 괘는 `{iching['meaning']}`의 상징을 가집니다.  
+{iching['balance']}  
+따라서 현재의 흐름은 완전히 고정된 결론이라기보다, 작은 선택과 태도 변화에 따라 방향이 달라질 수 있는 상태입니다.
 
-{zodiac_layer}
+표현 방식에서는 **{zodiac}**의 성질이 드러납니다.  
+`{ZODIACS[zodiac]}`의 기운은 지금의 상징을 지나치게 추상적인 예언으로 보기보다,  
+실제 태도와 습관, 반응 방식 속에서 읽어야 한다는 신호로 볼 수 있습니다.
 
-{planet_layer}
+가장 강하게 작동하는 원리는 **{planet}**의 에너지입니다.  
+`{PLANETS[planet]}`의 상징은 지금의 흐름이 어디에 힘을 싣고 있는지를 보여줍니다.  
+이 에너지는 리딩 전체의 분위기를 결정하는 핵심 축으로 작동합니다.
 
 종합하면, 지금은 하나의 답을 바로 고르는 시기라기보다 흩어진 신호들을 모아 패턴을 읽는 시기입니다.  
 불필요한 과잉을 줄이고, 반복해서 나타나는 감각을 따라가면 방향이 더 선명해집니다.  
@@ -339,19 +327,24 @@ def integrated_reading():
 """
 
     keys = make_keywords_from_text(reading)
-
     return reading, keys
 
 
 init()
 
 st.title("🔮 통합 오라클 리딩")
-st.write("주사위, 타로, 주역, 별자리, 행성을 뽑고 하나의 상징 리딩으로 통합합니다.")
+st.write("직접 굴리고, 멈추고, 선택해서 다섯 가지 상징을 모으는 오라클 리딩입니다.")
 
 if st.button("전체 초기화"):
-    for key in ["dice", "tarot", "iching", "zodiac", "planet"]:
-        st.session_state[key] = None
+    st.session_state.dice = None
+    st.session_state.dice_rolling = False
+    st.session_state.tarot = None
     st.session_state.tarot_deck = build_tarot_deck()
+    st.session_state.iching = None
+    st.session_state.zodiac = None
+    st.session_state.zodiac_rolling = False
+    st.session_state.planet = None
+    st.session_state.planet_rolling = False
     st.rerun()
 
 st.divider()
@@ -361,53 +354,53 @@ col1, col2 = st.columns(2)
 with col1:
     st.header("🎲 주사위")
 
-    if st.button("주사위 굴리고 멈추기"):
-        box = st.empty()
+    if st.session_state.dice_rolling:
+        st_autorefresh(interval=120, key="dice_refresh")
 
-        for _ in range(12):
-            a, b = random.randint(1, 6), random.randint(1, 6)
-            box.markdown(f"# {dice_face(a)} {dice_face(b)}")
-            time.sleep(0.05)
+        temp_a = random.randint(1, 6)
+        temp_b = random.randint(1, 6)
 
-        st.session_state.dice = (random.randint(1, 6), random.randint(1, 6))
-        st.rerun()
+        st.markdown(f"## {dice_face(temp_a)} {dice_face(temp_b)}")
 
-    if st.session_state.dice:
-        a, b = st.session_state.dice
-        st.markdown(f"## {dice_face(a)} {dice_face(b)}")
-        st.write(f"**결과:** {a} + {b} = {a + b}")
-        st.write(f"{a}: {DICE[a]}")
-        st.write(f"{b}: {DICE[b]}")
+        if st.button("멈추기", key="stop_dice"):
+            st.session_state.dice = (temp_a, temp_b)
+            st.session_state.dice_rolling = False
+            st.rerun()
+    else:
+        if st.session_state.dice:
+            a, b = st.session_state.dice
+            st.markdown(f"## {dice_face(a)} {dice_face(b)}")
+            st.write(f"**결과:** {a} + {b} = {a + b}")
+            st.write(f"{a}: {DICE[a]}")
+            st.write(f"{b}: {DICE[b]}")
+
+        if st.button("주사위 굴리기", key="start_dice"):
+            st.session_state.dice_rolling = True
+            st.rerun()
 
 with col2:
     st.header("🃏 타로카드")
 
-    c1, c2 = st.columns(2)
-
-    with c1:
-        if st.button("덱 섞기"):
-            st.session_state.tarot_deck = build_tarot_deck()
-            st.session_state.tarot = None
-            st.rerun()
-
-    with c2:
-        if st.button("랜덤 1장 뽑기"):
-            st.session_state.tarot = random.choice(st.session_state.tarot_deck)
-            st.rerun()
+    if st.button("카드 다시 섞기"):
+        st.session_state.tarot_deck = build_tarot_deck()
+        st.session_state.tarot = None
+        st.rerun()
 
     if st.session_state.tarot:
         t = st.session_state.tarot
+        st.success("카드를 선택했습니다.")
         st.write(f"**{t['name']} · {t['orientation']}**")
         st.write(t["meaning"])
+    else:
+        st.write("아래 156장의 카드 뒷면 중 하나를 직접 선택하세요.")
 
-    with st.expander("156장 랜덤 배열 보기"):
-        cols = st.columns(6)
+        cols = st.columns(12)
 
         for i, card in enumerate(st.session_state.tarot_deck):
-            mark = "↕" if card["orientation"] == "역방향" else "↑"
-
-            with cols[i % 6]:
-                st.caption(f"{i + 1}. {mark} {card['name']}")
+            with cols[i % 12]:
+                if st.button("🂠", key=f"tarot_card_{i}"):
+                    st.session_state.tarot = card
+                    st.rerun()
 
 st.divider()
 
@@ -433,40 +426,52 @@ with col3:
 with col4:
     st.header("♈ 별자리")
 
-    if st.button("별자리 굴리고 멈추기"):
-        names = list(ZODIACS.keys())
-        box = st.empty()
+    names = list(ZODIACS.keys())
 
-        for _ in range(14):
-            box.markdown(f"## {random.choice(names)}")
-            time.sleep(0.04)
+    if st.session_state.zodiac_rolling:
+        st_autorefresh(interval=120, key="zodiac_refresh")
 
-        st.session_state.zodiac = random.choice(names)
-        st.rerun()
+        temp_zodiac = random.choice(names)
+        st.markdown(f"## {temp_zodiac}")
 
-    if st.session_state.zodiac:
-        z = st.session_state.zodiac
-        st.write(f"**{z}**")
-        st.write(ZODIACS[z])
+        if st.button("멈추기", key="stop_zodiac"):
+            st.session_state.zodiac = temp_zodiac
+            st.session_state.zodiac_rolling = False
+            st.rerun()
+    else:
+        if st.session_state.zodiac:
+            z = st.session_state.zodiac
+            st.write(f"**{z}**")
+            st.write(ZODIACS[z])
+
+        if st.button("별자리 굴리기", key="start_zodiac"):
+            st.session_state.zodiac_rolling = True
+            st.rerun()
 
 with col5:
     st.header("🪐 행성")
 
-    if st.button("행성 굴리고 멈추기"):
-        names = list(PLANETS.keys())
-        box = st.empty()
+    names = list(PLANETS.keys())
 
-        for _ in range(14):
-            box.markdown(f"## {random.choice(names)}")
-            time.sleep(0.04)
+    if st.session_state.planet_rolling:
+        st_autorefresh(interval=120, key="planet_refresh")
 
-        st.session_state.planet = random.choice(names)
-        st.rerun()
+        temp_planet = random.choice(names)
+        st.markdown(f"## {temp_planet}")
 
-    if st.session_state.planet:
-        p = st.session_state.planet
-        st.write(f"**{p}**")
-        st.write(PLANETS[p])
+        if st.button("멈추기", key="stop_planet"):
+            st.session_state.planet = temp_planet
+            st.session_state.planet_rolling = False
+            st.rerun()
+    else:
+        if st.session_state.planet:
+            p = st.session_state.planet
+            st.write(f"**{p}**")
+            st.write(PLANETS[p])
+
+        if st.button("행성 굴리기", key="start_planet"):
+            st.session_state.planet_rolling = True
+            st.rerun()
 
 st.divider()
 
